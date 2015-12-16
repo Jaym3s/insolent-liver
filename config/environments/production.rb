@@ -78,4 +78,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.react.variant = :production
+
+  config.action_mailer.default_url_options = { host: 'jaymes.us', port: 3000 }
+
 end
