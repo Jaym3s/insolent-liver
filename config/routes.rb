@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :games
   devise_for :players
   match "/websocket", :to => ActionCable.server, via: [:get, :post]
   # The priority is based upon order of creation: first created -> highest priority.

@@ -11,7 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151216013638) do
+ActiveRecord::Schema.define(version: 20151216024942) do
+
+  create_table "games", force: :cascade do |t|
+    t.string   "type",        limit: 255
+    t.text     "board_state", limit: 65535
+    t.integer  "player_id",   limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "games", ["player_id"], name: "index_games_on_player_id", using: :btree
+
+  create_table "player_games", force: :cascade do |t|
+    t.integer  "player_id",  limit: 4
+    t.integer  "game_id",    limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "player_games", ["game_id"], name: "index_player_games_on_game_id", using: :btree
+  add_index "player_games", ["player_id"], name: "index_player_games_on_player_id", using: :btree
 
   create_table "players", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -32,4 +52,7 @@ ActiveRecord::Schema.define(version: 20151216013638) do
   add_index "players", ["email"], name: "index_players_on_email", unique: true, using: :btree
   add_index "players", ["reset_password_token"], name: "index_players_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "games", "players"
+  add_foreign_key "player_games", "games"
+  add_foreign_key "player_games", "players"
 end
